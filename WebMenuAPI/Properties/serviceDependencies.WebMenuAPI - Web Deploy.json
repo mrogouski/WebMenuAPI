@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "apis1": {
+      "apiEndpoint": "https://webmenuapiapi.azure-api.net/WebMenu",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/WebMenuAPIapi/apis/WebMenuAPI",
+      "type": "apis.azure"
+    }
+  }
+}
