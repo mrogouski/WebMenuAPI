@@ -1,33 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebMenuAPI.Data;
 using WebMenuAPI.Data.Models;
+using WebMenuAPI.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebMenuAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CategoryController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly WebMenuContext _context;
 
-        public CategoryController(WebMenuContext context)
+        public UserController(WebMenuContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IEnumerable<Category>> GetCategories()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        public async Task<ActionResult<Category>> GetUser(int id)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
@@ -39,36 +38,36 @@ namespace WebMenuAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory([FromBody]Category category)
+        public async Task<ActionResult<Category>> PostUser([FromBody] User user)
         {
-            _context.Categories.Add(category);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCategory), new { category.Id }, category);
+            return CreatedAtAction(nameof(GetUser), new { user.Id }, user);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutCategory(int id, [FromBody]Category category)
+        public async Task<ActionResult> PutUser(int id, [FromBody] User user)
         {
-            if (id != category.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategory(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _context.Users.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Categories.Remove(category);
+            _context.Users.Remove(category);
             await _context.SaveChangesAsync();
             return NoContent();
         }
