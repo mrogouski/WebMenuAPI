@@ -12,6 +12,7 @@ namespace WebMenuAPI.Data
     {
         public WebMenuContext(DbContextOptions<WebMenuContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -20,6 +21,19 @@ namespace WebMenuAPI.Data
         public DbSet<Product> Products { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Category>().HasData(new Category { Id = 1, Title = "Pizzas", Description = "Las Pizzas de Don Cangrejo" });
+            
+            var pizzas = new List<Product>();
+            pizzas.Add(new Product { Id = 1, Title = "Calabresa", Description = "", Available = true, Price = 2000, ImageFilename = "", CategoryId = 1 });
+            pizzas.Add(new Product { Id = 2, Title = "Napolitana", Description = "", Available = true, Price = 1900, ImageFilename = "", CategoryId = 1 });
+            modelBuilder.Entity<Product>().HasData(pizzas);
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, Username = "admin", Password = "admin" });
+            
+            base.OnModelCreating(modelBuilder);
+        }
 
     }
 }

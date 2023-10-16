@@ -35,7 +35,7 @@ namespace WebMenuAPI.Controllers
 
             //var user = _context.Users.Where(x => x.UserName == login.UserName).FirstOrDefault();
 
-            if (login.UserName == "test" && login.Password == "test")
+            if (login.Username == "test" && login.Password == "test")
             {
                 var issuer = ConfigurationManager.AppSettings["JWT:Issuer"];
                 var audience = ConfigurationManager.AppSettings["JWT:Audience"];
@@ -45,8 +45,8 @@ namespace WebMenuAPI.Controllers
                     Subject = new ClaimsIdentity(new[]
                     {
                         new Claim("Id", Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Sub, login.UserName),
-                        new Claim(JwtRegisteredClaimNames.Email, login.UserName),
+                        new Claim(JwtRegisteredClaimNames.Sub, login.Username),
+                        new Claim(JwtRegisteredClaimNames.Email, login.Username),
                         new Claim(JwtRegisteredClaimNames.Jti,
                         Guid.NewGuid().ToString())
                     }),
